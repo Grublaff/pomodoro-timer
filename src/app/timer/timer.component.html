@@ -1,0 +1,15 @@
+<div id="timer-container">
+    <div class="inputs">
+      <p id="timer">{{ minutes }}:{{ seconds | number: '2.0' }}</p>
+    </div>
+    <div class="inputs">
+      <i class="fa-solid fa-play" (click)="startTimer()"></i>
+    </div>
+    <div class="inputs">
+      <i class="fa-solid fa-stop" (click)="resetTimer()"></i>
+    </div>
+    <div class="inputs">
+      <i class="fa-solid fa-gear" (click)="openSettings()"></i>
+    </div>
+  </div>
+  

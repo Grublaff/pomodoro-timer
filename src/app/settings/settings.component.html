@@ -1,0 +1,13 @@
+<div id="settings-container">
+    <h2>Settings</h2>
+    <label>
+      Work Duration (minutes):
+      <input type="number" [(ngModel)]="workDuration" />
+    </label>
+    <label>
+      Break Duration (minutes):
+      <input type="number" [(ngModel)]="breakDuration" />
+    </label>
+    <button (click)="saveSettings()">Save</button>
+  </div>
+  
