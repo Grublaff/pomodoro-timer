@@ -8,6 +8,7 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 1em;
   }
   
   #timer-container {
@@ -34,3 +35,15 @@ html, body {
     height: 0; /* Remove the horizontal scrollbar */
   }
   
+  #settings-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #1e1e1e;
+    border-radius: 20px;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    -webkit-app-region: drag; /* Allow drag */
+  }

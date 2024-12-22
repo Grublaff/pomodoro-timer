@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   selector: 'app-timer',
   templateUrl: './timer.component.html',
   styleUrls: ['./timer.component.css'],
-  imports: [CommonModule ]
+  imports: [ CommonModule ]
 })
 export class TimerComponent {
   minutes: number = 25;
@@ -13,6 +13,7 @@ export class TimerComponent {
   timerInterval: any;
   isRunning: boolean = false;
 
+  constructor() { }
   startTimer() {
     if (this.isRunning) return;
 
@@ -41,7 +42,6 @@ export class TimerComponent {
   }
 
   openSettings() {
-    console.log('Settings button clicked.');
-    // Logic to open the settings dialog or navigate to the settings component
+    // this._ipc.send('open-settings'); // Trigger the main process
   }
 }

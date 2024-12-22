@@ -10,6 +10,7 @@
     "src/main.ts"
   ],
   "include": [
+    "src/electron.d.ts",
     "src/**/*.d.ts"
   ]
 }
