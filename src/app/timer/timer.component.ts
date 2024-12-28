@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { ElectronService } from 'ngx-electron';
 
 @Component({
   selector: 'app-timer',
   templateUrl: './timer.component.html',
   styleUrls: ['./timer.component.css'],
-  imports: [ CommonModule ]
+  imports: [ CommonModule ],
+  providers: [ ElectronService ]
 })
 export class TimerComponent {
   minutes: number = 25;
@@ -13,8 +15,9 @@ export class TimerComponent {
   timerInterval: any;
   isRunning: boolean = false;
 
-  constructor() { }
-  startTimer() {
+  constructor(private _electronService: ElectronService) { }
+
+    startTimer() {
     if (this.isRunning) return;
 
     this.isRunning = true;
@@ -42,6 +45,7 @@ export class TimerComponent {
   }
 
   openSettings() {
-    // this._ipc.send('open-settings'); // Trigger the main process
-  }
+    console.log(this._electronService.isElectronApp);
+    this._electronService.ipcRenderer.send('open-settings');
+   }
 }

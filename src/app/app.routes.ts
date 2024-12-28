@@ -9,7 +9,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],  // Enable hash-based routing
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
