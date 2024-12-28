@@ -19,7 +19,6 @@ app.whenReady().then(() => {
       },
   });
   mainWindow.loadURL(`file://${__dirname}/dist/grubla-timer/browser/index.html`)
-//   mainWindow.loadFile('dist/grubla-timer/browser/index.html');
 
   ipcMain.on('open-settings', () => {
     const popup = new BrowserWindow({
