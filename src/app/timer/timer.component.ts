@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { ElectronService } from 'ngx-electron';
 
 @Component({
   selector: 'app-timer',
   templateUrl: './timer.component.html',
   styleUrls: ['./timer.component.css'],
-  imports: [ CommonModule ],
+  imports: [ CommonModule, RouterModule ],
   providers: [ ElectronService ]
 })
 export class TimerComponent {
