@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
 import { ElectronService } from 'ngx-electron';
+import { SettingsComponent } from '../settings/settings.component';
 
 @Component({
   selector: 'app-timer',
@@ -16,7 +18,7 @@ export class TimerComponent {
   timerInterval: any;
   isRunning: boolean = false;
 
-  constructor(private _electronService: ElectronService) { }
+  constructor(private _electronService: ElectronService, private dialog: MatDialog) { }
 
     startTimer() {
     if (this.isRunning) return;
@@ -46,7 +48,10 @@ export class TimerComponent {
   }
 
   openSettings() {
-    console.log(this._electronService.isElectronApp);
-    this._electronService.ipcRenderer.send('open-settings');
+    this._electronService.ipcRenderer.send('resize-window', 500, 500);
+    this.dialog.open(SettingsComponent, {
+      width: '500px',
+      height: '500px',
+    });
    }
 }

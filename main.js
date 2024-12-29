@@ -1,5 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron').remote;
-const BrowserWindow = remote.BrowserWindow;
+const { app, BrowserWindow, ipcMain } = require('electron');
 
 let mainWindow;
 
@@ -8,10 +7,11 @@ app.whenReady().then(() => {
     width: 240,
     height: 60,
     frame: false, // No default window frame
-    transparent: false, // Allow transparency
+    transparent: true, // Allow transparency
     resizable: true, // Allow resizing
     alwaysOnTop: true, // Keep the app on top,
     devTools: true, // Disable DevTools
+    hasShadow: false, // Remove window shadow
     webPreferences: {
         contextIsolation: false,
         nodeIntegration: true,
@@ -19,6 +19,11 @@ app.whenReady().then(() => {
   });
   mainWindow.loadURL(`file://${__dirname}/dist/grubla-timer/browser/index.html`)
 });
+
+ipcMain.on('resize-window', (event, width, height) => {
+  let browserWindow = BrowserWindow.fromWebContents(event.sender)
+  browserWindow.setSize(width,height)
+})
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {

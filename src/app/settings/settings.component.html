@@ -1,13 +1,22 @@
-<div id="settings-container">
-    <h2>Settings</h2>
-    <label>
-      Work Duration (minutes):
-      <input type="number" [(ngModel)]="workDuration" />
-    </label>
-    <label>
-      Break Duration (minutes):
-      <input type="number" [(ngModel)]="breakDuration" />
-    </label>
-    <button (click)="saveSettings()">Save</button>
+<h2 mat-dialog-title>Settings</h2>
+
+<mat-dialog-content class="settings-content">
+  <div class="form-group">
+    <mat-form-field class="full-width">
+      <mat-label>Work Duration (minutes)</mat-label>
+      <input matInput type="number" [(ngModel)]="workDuration" />
+    </mat-form-field>
   </div>
-  
+
+  <div class="form-group">
+    <mat-form-field class="full-width">
+      <mat-label>Break Duration (minutes)</mat-label>
+      <input matInput type="number" [(ngModel)]="breakDuration" />
+    </mat-form-field>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button class="mat-warn" mat-dialog-close>Cancel</button>
+  <button class="mat-primary" (click)="saveSettings()">Save</button>
+</mat-dialog-actions>
