@@ -1,31 +1,50 @@
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-
+import { ElectronService } from 'ngx-electron';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.css'],
   imports: [ 
     FormsModule,
     MatDialogModule,
     MatButtonModule,
     MatFormFieldModule,
-    MatInputModule, ]
+    MatInputModule, ],
+  styleUrls: ['./settings.component.css'],
+  providers: [ElectronService]
 })
-export class SettingsComponent {
-  workDuration: number = 25; // Default value
-  breakDuration: number = 5; // Default value
+export class SettingsComponent implements OnInit {
+  workMinutes: number | undefined;
+  breakMinutes: number | undefined;
+
+  constructor(private _electronService: ElectronService, private dialogRef: MatDialogRef<SettingsComponent>) {}
+
+  async ngOnInit() {
+    try {
+      const settings = await this._electronService.ipcRenderer.invoke('get-settings');
+      this.workMinutes = settings.workMinutes;
+      this.breakMinutes = settings.breakMinutes;
+    } catch (error) {
+      console.error('Error getting settings:', error);
+      this.workMinutes = 25;
+      this.breakMinutes = 5;
+    }
+
+  }
 
   saveSettings() {
-    // Save settings to local storage or communicate with a service
-    localStorage.setItem('workDuration', this.workDuration.toString());
-    localStorage.setItem('breakDuration', this.breakDuration.toString());
-    alert('Settings saved!');
+    const settings = {
+      workMinutes: this.workMinutes,
+      breakMinutes: this.breakMinutes,
+    };
+    this._electronService.ipcRenderer.send('save-settings', settings);
+
+    this.dialogRef.close();
   }
 }
