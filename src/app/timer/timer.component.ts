@@ -22,8 +22,11 @@ export class TimerComponent implements OnInit, OnDestroy {
   isWorkPeriod: boolean = true;
   workMinutes: number = 25;
   breakMinutes: number = 5;
+  alertAudio: HTMLAudioElement;
 
-  constructor(private _electronService: ElectronService, private dialog: MatDialog) { }
+  constructor(private _electronService: ElectronService, private dialog: MatDialog) { 
+    this.alertAudio = new Audio('assets/alert.mp3');
+  }
   
   async ngOnInit() {
     try {
@@ -74,10 +77,10 @@ export class TimerComponent implements OnInit, OnDestroy {
     this.isWorkPeriod = !this.isWorkPeriod;
     if (this.isWorkPeriod) {
       this.minutes = this.workMinutes;
-      alert('Break is over! Time to work.');
+      this.alertAudio.play(); 
     } else {
       this.minutes = this.breakMinutes;
-      alert('Work is over! Time for a break.');
+      this.alertAudio.play(); 
     }
     this.seconds = 0;
     this.startTimer();
