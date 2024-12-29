@@ -33,7 +33,7 @@ jobs:
       run: npm run package  # Ensure you have a package script defined in package.json
 
     - name: Upload Artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: electron-app
         path: dist/  # The folder where your built Electron app will be stored
