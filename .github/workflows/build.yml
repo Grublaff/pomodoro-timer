@@ -22,7 +22,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '14'  # Set to your preferred Node.js version
+        node-version: '18'  # Set to your preferred Node.js version
     
     - name: Install dependencies
       run: |
@@ -48,7 +48,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '14'
+        node-version: '18'
     
     - name: Install dependencies
       run: |
@@ -67,6 +67,6 @@ jobs:
       uses: ghactions/upload-release-asset@v1
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./dist/your-app-name
-        asset_name: your-app-name.zip  # Name the asset correctly
+        asset_path: ./dist/pomodoro-timer
+        asset_name: pomodoro-timer.zip  # Name the asset correctly
         asset_content_type: application/zip  # Set the appropriate content type
