@@ -20,7 +20,7 @@ function createWindow() {
     },
   });
 
-  const indexPath = `file://${path.join(__dirname, 'dist', 'grubla-timer', 'browser', 'index.html')}#/timer`;
+  const indexPath = `file://${path.join(__dirname, 'dist', 'pomodoro-timer', 'browser', 'index.html')}#/timer`;
   console.log('Loading URL:', indexPath);
 
   mainWindow.loadURL(indexPath).catch((err) => {
