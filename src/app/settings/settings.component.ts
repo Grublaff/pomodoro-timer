@@ -35,7 +35,6 @@ export class SettingsComponent implements OnInit {
       this.workMinutes = 25;
       this.breakMinutes = 5;
     }
-
   }
 
   saveSettings() {

@@ -1,9 +1,9 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { RouterModule } from '@angular/router';
 import { ElectronService } from 'ngx-electron';
 import { SettingsComponent } from '../settings/settings.component';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-timer',
@@ -19,35 +19,37 @@ export class TimerComponent implements OnInit, OnDestroy {
   ogTimerInterval: any;
   timerInterval: any;
   isRunning: boolean = false;
+  isWorkPeriod: boolean = true;
+  workMinutes: number = 25;
+  breakMinutes: number = 5;
 
   constructor(private _electronService: ElectronService, private dialog: MatDialog) { }
   
   async ngOnInit() {
     try {
       const settings = await this._electronService.ipcRenderer.invoke('get-settings');
-      this.minutes = settings.workMinutes;
-      this.ogMinutes = settings.workMinutes;
-      this.ogTimerInterval = settings.breakMinutes;
-      this.timerInterval = settings.breakMinutes;
+      this.workMinutes = settings.workMinutes;
+      this.breakMinutes = settings.breakMinutes;
+      this.minutes = this.workMinutes;
+      this.ogMinutes = this.workMinutes;
     } catch (error) {
       console.error('Error getting settings:', error);
       this.minutes = 25;
-      this.timerInterval = 5;
+      this.breakMinutes = 5;
     }
 
     this._electronService.ipcRenderer.on('settings-saved', (event, settings) => {
-      this.minutes = settings.workMinutes;
-      this.ogMinutes = settings.workMinutes;
-      this.ogTimerInterval = settings.breakMinutes;
-      this.timerInterval = settings.breakMinutes;
+      this.workMinutes = settings.workMinutes;
+      this.breakMinutes = settings.breakMinutes;
       this.resetTimer();
-      console.log('i was caööed');
+      console.log('Settings updated:', settings);
     });
   }
 
   ngOnDestroy() {
     this._electronService.ipcRenderer.removeAllListeners('settings-saved');
   }
+
   startTimer() {
     if (this.isRunning) return;
 
@@ -55,8 +57,7 @@ export class TimerComponent implements OnInit, OnDestroy {
     this.timerInterval = setInterval(() => {
       if (this.seconds === 0) {
         if (this.minutes === 0) {
-          this.resetTimer();
-          alert('Time is up!');
+          this.togglePeriod();
         } else {
           this.minutes--;
           this.seconds = 59;
@@ -65,15 +66,30 @@ export class TimerComponent implements OnInit, OnDestroy {
         this.seconds--;
       }
     }, 1000);
-    console.log(this.timerInterval, this.minutes, this.seconds, this.ogMinutes, this.ogTimerInterval);
+  }
+
+  togglePeriod() {
+    clearInterval(this.timerInterval);
+    this.isRunning = false;
+    this.isWorkPeriod = !this.isWorkPeriod;
+    if (this.isWorkPeriod) {
+      this.minutes = this.workMinutes;
+      alert('Break is over! Time to work.');
+    } else {
+      this.minutes = this.breakMinutes;
+      alert('Work is over! Time for a break.');
+    }
+    this.seconds = 0;
+    this.startTimer();
   }
 
   resetTimer() {
     clearInterval(this.timerInterval);
     this.timerInterval = null;
-    this.minutes = this.ogMinutes; // Replace with default from settings
-    this.seconds = this.ogTimerInterval; // Replace with default from settings
     this.isRunning = false;
+    this.isWorkPeriod = true;
+    this.minutes = this.workMinutes;
+    this.seconds = 0;
   }
 
   openSettings() {
@@ -82,5 +98,5 @@ export class TimerComponent implements OnInit, OnDestroy {
       width: '500px',
       height: '500px',
     });
-   }
+  }
 }
